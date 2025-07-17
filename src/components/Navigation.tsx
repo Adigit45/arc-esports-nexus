@@ -30,6 +30,7 @@ const Navigation = () => {
   const getNavItems = () => {
     if (userType === 'player') {
       return [
+        { name: "Feed", href: "/feed", icon: GamepadIcon },
         { name: "Tournaments", href: "/tournaments", icon: Trophy },
         { name: "Teams", href: "/teams", icon: Users },
         { name: "Connect", href: "/connect", icon: Zap },
@@ -38,6 +39,7 @@ const Navigation = () => {
       return [
         { name: "Tournaments", href: "/tournaments", icon: Trophy },
         { name: "Teams", href: "/teams", icon: Users },
+        { name: "Recruitment", href: "/recruitment", icon: Users },
       ];
     }
     return [

@@ -8,6 +8,8 @@ import Index from "./pages/Index";
 import Tournaments from "./pages/Tournaments";
 import Teams from "./pages/Teams";
 import Connect from "./pages/Connect";
+import Feed from "./pages/Feed";
+import Recruitment from "./pages/Recruitment";
 import PlayerAuth from "./pages/PlayerAuth";
 import TeamAuth from "./pages/TeamAuth";
 import NotFound from "./pages/NotFound";
@@ -23,9 +25,11 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/feed" element={<Feed />} />
             <Route path="/tournaments" element={<Tournaments />} />
             <Route path="/teams" element={<Teams />} />
             <Route path="/connect" element={<Connect />} />
+            <Route path="/recruitment" element={<Recruitment />} />
             <Route path="/player-auth" element={<PlayerAuth />} />
             <Route path="/team-auth" element={<TeamAuth />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
