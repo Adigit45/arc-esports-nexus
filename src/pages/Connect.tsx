@@ -3,8 +3,16 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Zap, Users, MessageCircle, SkipForward, Heart } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { Navigate } from "react-router-dom";
 
 const Connect = () => {
+  const { userType, isLoggedIn } = useAuth();
+
+  // Only players can access Connect feature
+  if (!isLoggedIn || userType !== 'player') {
+    return <Navigate to="/" replace />;
+  }
   return (
     <div className="min-h-screen bg-gradient-bg">
       <Navigation />
