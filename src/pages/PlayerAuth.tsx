@@ -22,7 +22,7 @@ const PlayerAuth = () => {
       email: 'player@example.com',
       type: 'player'
     });
-    navigate('/');
+    navigate('/feed');
   };
 
   const handleRegister = (e: React.FormEvent) => {
@@ -34,7 +34,7 @@ const PlayerAuth = () => {
       email: 'newplayer@example.com',
       type: 'player'
     });
-    navigate('/');
+    navigate('/feed');
   };
 
   return (
