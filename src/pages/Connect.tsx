@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Zap, Users, MessageCircle, SkipForward, Heart, Flag, UserX, Gamepad2, Clock } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -19,6 +19,7 @@ interface RandomUser {
 const Connect = () => {
   const { userType, isLoggedIn } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [isConnecting, setIsConnecting] = useState(false);
   const [currentUser, setCurrentUser] = useState<RandomUser | null>(null);
   const [isSearching, setIsSearching] = useState(false);
@@ -84,6 +85,8 @@ const Connect = () => {
       title: "Connection Established!",
       description: `You are now connected with ${currentUser?.name}. Start chatting!`,
     });
+    // Navigate to video chat page
+    navigate('/video-chat', { state: { user: currentUser } });
   };
   return (
     <div className="min-h-screen bg-gradient-bg">

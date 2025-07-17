@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Tournaments from "./pages/Tournaments";
 import Teams from "./pages/Teams";
 import Connect from "./pages/Connect";
+import VideoChat from "./pages/VideoChat";
 import Feed from "./pages/Feed";
 import Recruitment from "./pages/Recruitment";
 import PlayerAuth from "./pages/PlayerAuth";
@@ -28,7 +29,8 @@ const App = () => (
             <Route path="/feed" element={<Feed />} />
             <Route path="/tournaments" element={<Tournaments />} />
             <Route path="/teams" element={<Teams />} />
-            <Route path="/connect" element={<Connect />} />
+        <Route path="/connect" element={<Connect />} />
+        <Route path="/video-chat" element={<VideoChat />} />
             <Route path="/recruitment" element={<Recruitment />} />
             <Route path="/player-auth" element={<PlayerAuth />} />
             <Route path="/team-auth" element={<TeamAuth />} />
