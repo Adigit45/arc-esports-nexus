@@ -31,13 +31,13 @@ const Navigation = () => {
     if (userType === 'player') {
       return [
         { name: "Tournaments", href: "/tournaments", icon: Trophy },
-        { name: "Teams", href: "/teams", icon: Users },
+        { name: "Recruitment", href: "/recruitment", icon: Users },
         { name: "Connect", href: "/connect", icon: Zap },
       ];
     } else if (userType === 'team') {
       return [
         { name: "Tournaments", href: "/tournaments", icon: Trophy },
-        { name: "Teams", href: "/teams", icon: Users },
+        { name: "Team Management", href: "/teams", icon: Users },
         { name: "Recruitment", href: "/recruitment", icon: Users },
       ];
     }
