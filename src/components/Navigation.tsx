@@ -17,7 +17,8 @@ import {
   Menu,
   X,
   Shield,
-  Zap
+  Zap,
+  MessageCircle
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { Link } from "react-router-dom";
@@ -32,6 +33,7 @@ const Navigation = () => {
       return [
         { name: "Tournaments", href: "/tournaments", icon: Trophy },
         { name: "Recruitment", href: "/recruitment", icon: Users },
+        { name: "Messages", href: "/messages", icon: MessageCircle },
         { name: "Connect", href: "/connect", icon: Zap },
       ];
     } else if (userType === 'team') {
@@ -39,6 +41,7 @@ const Navigation = () => {
         { name: "Tournaments", href: "/tournaments", icon: Trophy },
         { name: "Team Management", href: "/teams", icon: Users },
         { name: "Recruitment", href: "/recruitment", icon: Users },
+        { name: "Messages", href: "/messages", icon: MessageCircle },
       ];
     }
     return [
