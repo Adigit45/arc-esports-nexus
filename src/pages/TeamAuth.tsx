@@ -22,7 +22,7 @@ const TeamAuth = () => {
       email: 'team@example.com',
       type: 'team'
     });
-    navigate('/');
+    navigate('/feed');
   };
 
   const handleRegister = (e: React.FormEvent) => {
@@ -34,7 +34,7 @@ const TeamAuth = () => {
       email: 'newteam@example.com',
       type: 'team'
     });
-    navigate('/');
+    navigate('/feed');
   };
 
   return (

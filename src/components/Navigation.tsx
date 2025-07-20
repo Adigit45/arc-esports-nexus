@@ -106,7 +106,7 @@ const Navigation = () => {
                 <DropdownMenuContent className="w-56" align="end">
                   <DropdownMenuItem>
                     <User className="mr-2 h-4 w-4" />
-                    <span>Profile</span>
+                    <Link to={userType === 'team' ? '/team-profile' : '/player-profile'}>Profile</Link>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
                     <Settings className="mr-2 h-4 w-4" />
@@ -162,10 +162,12 @@ const Navigation = () => {
               <div className="pt-4 border-t border-border">
                 {isLoggedIn ? (
                   <div className="flex flex-col space-y-2">
-                    <Button variant="ghost" className="justify-start">
-                      <User className="mr-2 h-4 w-4" />
-                      Profile
-                    </Button>
+                    <Link to={userType === 'team' ? '/team-profile' : '/player-profile'}>
+                      <Button variant="ghost" className="justify-start w-full">
+                        <User className="mr-2 h-4 w-4" />
+                        Profile
+                      </Button>
+                    </Link>
                     <Button variant="ghost" className="justify-start">
                       <Settings className="mr-2 h-4 w-4" />
                       Settings
