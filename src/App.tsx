@@ -12,6 +12,7 @@ import VideoChat from "./pages/VideoChat";
 import Feed from "./pages/Feed";
 import Messages from "./pages/Messages";
 import Recruitment from "./pages/Recruitment";
+import Admin from "./pages/Admin";
 import PlayerAuth from "./pages/PlayerAuth";
 import TeamAuth from "./pages/TeamAuth";
 import NotFound from "./pages/NotFound";
@@ -34,6 +35,7 @@ const App = () => (
             <Route path="/video-chat" element={<VideoChat />} />
             <Route path="/messages" element={<Messages />} />
             <Route path="/recruitment" element={<Recruitment />} />
+            <Route path="/admin" element={<Admin />} />
             <Route path="/player-auth" element={<PlayerAuth />} />
             <Route path="/team-auth" element={<TeamAuth />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

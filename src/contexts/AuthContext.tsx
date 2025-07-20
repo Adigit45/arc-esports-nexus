@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 
-type UserType = 'player' | 'team' | null;
+type UserType = 'player' | 'team' | 'admin' | null;
 
 interface User {
   id: string;

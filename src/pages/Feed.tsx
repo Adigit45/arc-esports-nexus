@@ -23,15 +23,46 @@ const Feed = () => {
   const { userType, isLoggedIn } = useAuth();
   const [postContent, setPostContent] = useState("");
 
-  // Only players can access Feed
-  if (!isLoggedIn || userType !== 'player') {
+  // Both players and teams can access Feed
+  if (!isLoggedIn) {
     return <Navigate to="/" replace />;
   }
 
-  const mockPosts = [
+  const mockPosts = userType === 'team' ? [
     {
       id: 1,
-      user: { name: "ProGamer_99", avatar: "", verified: true },
+      user: { name: "Team ARC Elite", avatar: "", verified: true, type: "team" },
+      content: "🏆 Championship Win! Our team dominated the BGMI tournament finals with a perfect 3-0 score!",
+      type: "achievement",
+      game: "BGMI",
+      likes: 342,
+      comments: 67,
+      timeAgo: "1h ago"
+    },
+    {
+      id: 2,
+      user: { name: "Team Phoenix", avatar: "", verified: false, type: "team" },
+      content: "Team practice highlights from today's scrimmage. Working on our rotations and communication 💪",
+      type: "content",
+      game: "Valorant",
+      likes: 156,
+      comments: 23,
+      timeAgo: "3h ago"
+    },
+    {
+      id: 3,
+      user: { name: "Team Legends", avatar: "", verified: true, type: "team" },
+      content: "Recruiting skilled players for upcoming tournaments! Looking for aggressive fraggers and IGL 🎯",
+      type: "recruitment",
+      game: "Free Fire",
+      likes: 89,
+      comments: 34,
+      timeAgo: "6h ago"
+    }
+  ] : [
+    {
+      id: 1,
+      user: { name: "ProGamer_99", avatar: "", verified: true, type: "player" },
       content: "Just clutched a 1v4 in Valorant! 🔥",
       type: "achievement",
       game: "Valorant",
@@ -41,7 +72,7 @@ const Feed = () => {
     },
     {
       id: 2,
-      user: { name: "StreamQueen", avatar: "", verified: false },
+      user: { name: "StreamQueen", avatar: "", verified: false, type: "player" },
       content: "New BGMI montage is live! Check out this insane headshot compilation 🎯",
       type: "content",
       game: "BGMI",
@@ -51,7 +82,7 @@ const Feed = () => {
     },
     {
       id: 3,
-      user: { name: "EsportsKing", avatar: "", verified: true },
+      user: { name: "EsportsKing", avatar: "", verified: true, type: "player" },
       content: "Won our first tournament! Team chemistry was incredible 🏆",
       type: "achievement", 
       game: "Free Fire",
@@ -78,11 +109,13 @@ const Feed = () => {
           {/* Create Post Section */}
           <Card className="bg-card border-border">
             <CardHeader>
-              <CardTitle className="text-xl font-bold">Share Your Gaming Moments</CardTitle>
+              <CardTitle className="text-xl font-bold">
+                {userType === 'team' ? 'Share Team Updates' : 'Share Your Gaming Moments'}
+              </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <Textarea
-                placeholder="What's happening in your gaming world?"
+                placeholder={userType === 'team' ? "Share team updates, achievements, or announcements..." : "What's happening in your gaming world?"}
                 value={postContent}
                 onChange={(e) => setPostContent(e.target.value)}
                 className="min-h-24 resize-none"

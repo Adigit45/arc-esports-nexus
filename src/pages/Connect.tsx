@@ -57,10 +57,20 @@ const Connect = () => {
     setIsConnecting(true);
     setIsSearching(true);
     
-    // Simulate finding a user
+    // Simulate finding a user and directly connect
     setTimeout(() => {
-      setCurrentUser(generateRandomUser());
+      const user = generateRandomUser();
+      setCurrentUser(user);
       setIsSearching(false);
+      
+      // Directly navigate to video chat
+      setTimeout(() => {
+        toast({
+          title: "Connected!",
+          description: `You are now connected with ${user.name}`,
+        });
+        navigate('/video-chat', { state: { user } });
+      }, 1000);
     }, 2000);
   };
 

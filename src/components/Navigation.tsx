@@ -31,6 +31,7 @@ const Navigation = () => {
   const getNavItems = () => {
     if (userType === 'player') {
       return [
+        { name: "Home", href: "/feed", icon: GamepadIcon },
         { name: "Tournaments", href: "/tournaments", icon: Trophy },
         { name: "Recruitment", href: "/recruitment", icon: Users },
         { name: "Messages", href: "/messages", icon: MessageCircle },
@@ -38,10 +39,17 @@ const Navigation = () => {
       ];
     } else if (userType === 'team') {
       return [
+        { name: "Home", href: "/feed", icon: GamepadIcon },
         { name: "Tournaments", href: "/tournaments", icon: Trophy },
         { name: "Team Management", href: "/teams", icon: Users },
         { name: "Recruitment", href: "/recruitment", icon: Users },
         { name: "Messages", href: "/messages", icon: MessageCircle },
+      ];
+    } else if (userType === 'admin') {
+      return [
+        { name: "Admin Panel", href: "/admin", icon: Shield },
+        { name: "Tournaments", href: "/tournaments", icon: Trophy },
+        { name: "Teams", href: "/teams", icon: Users },
       ];
     }
     return [

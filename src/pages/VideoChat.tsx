@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { 
   Video, VideoOff, Mic, MicOff, PhoneOff, 
-  Send, Eye, EyeOff, Flag, MoreVertical 
+  Send, UserPlus, Flag, MoreVertical, SkipForward 
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -25,8 +25,7 @@ const VideoChat = () => {
   const [isAudioOn, setIsAudioOn] = useState(true);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState('');
-  const [isIdentityRevealed, setIsIdentityRevealed] = useState(false);
-  const [otherUserRevealed, setOtherUserRevealed] = useState(false);
+  const [isFriend, setIsFriend] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   // Get user data from navigation state
@@ -74,21 +73,20 @@ const VideoChat = () => {
     }, 1000 + Math.random() * 2000);
   };
 
-  const handleRevealIdentity = () => {
-    setIsIdentityRevealed(true);
+  const handleAddFriend = () => {
+    setIsFriend(true);
     toast({
-      title: "Identity Revealed!",
-      description: "Your identity is now visible to the other user."
+      title: "Friend Request Sent!",
+      description: `Friend request sent to ${otherUser.name}.`
     });
+  };
 
-    // Simulate other user revealing identity after some time
-    setTimeout(() => {
-      setOtherUserRevealed(true);
-      toast({
-        title: "Other User Revealed!",
-        description: `${otherUser.name} has revealed their identity.`
-      });
-    }, 3000);
+  const handleSkip = () => {
+    toast({
+      title: "Skipped User",
+      description: "Finding you a new connection..."
+    });
+    navigate('/connect');
   };
 
   const handleEndCall = () => {
@@ -115,20 +113,21 @@ const VideoChat = () => {
           <div className="flex items-center gap-4">
             <div className="w-10 h-10 bg-gradient-primary rounded-full flex items-center justify-center">
               <span className="text-primary-foreground font-bold">
-                {otherUserRevealed ? otherUser.name[0] : '?'}
+                {otherUser.name[0]}
               </span>
             </div>
             <div>
-              <h3 className="font-semibold">
-                {otherUserRevealed ? otherUser.name : 'Anonymous User'}
-              </h3>
+              <h3 className="font-semibold">{otherUser.name}</h3>
               <div className="flex items-center gap-2">
                 <Badge variant="secondary" className="text-xs">
                   {otherUser.game}
                 </Badge>
-                {otherUserRevealed && (
-                  <Badge variant="outline" className="text-xs">
-                    {otherUser.gender}
+                <Badge variant="outline" className="text-xs">
+                  {otherUser.gender}
+                </Badge>
+                {isFriend && (
+                  <Badge variant="default" className="text-xs bg-green-500">
+                    Friend
                   </Badge>
                 )}
               </div>
@@ -136,11 +135,19 @@ const VideoChat = () => {
           </div>
           
           <div className="flex items-center gap-2">
+            <Button 
+              variant={isFriend ? "default" : "outline"} 
+              size="sm" 
+              onClick={handleAddFriend}
+              disabled={isFriend}
+            >
+              <UserPlus className="h-4 w-4" />
+            </Button>
+            <Button variant="outline" size="sm" onClick={handleSkip}>
+              <SkipForward className="h-4 w-4" />
+            </Button>
             <Button variant="outline" size="sm" onClick={handleReport}>
               <Flag className="h-4 w-4" />
-            </Button>
-            <Button variant="outline" size="sm">
-              <MoreVertical className="h-4 w-4" />
             </Button>
           </div>
         </div>
@@ -159,12 +166,10 @@ const VideoChat = () => {
                   <div className="text-center">
                     <div className="w-32 h-32 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4">
                       <span className="text-4xl text-primary-foreground">
-                        {otherUserRevealed ? otherUser.name[0] : '?'}
+                        {otherUser.name[0]}
                       </span>
                     </div>
-                    <p className="text-white">
-                      {otherUserRevealed ? otherUser.name : 'Anonymous User'}
-                    </p>
+                    <p className="text-white">{otherUser.name}</p>
                   </div>
                 </div>
               ) : (
@@ -182,12 +187,10 @@ const VideoChat = () => {
                   <div className="text-center">
                     <div className="w-16 h-16 bg-gradient-secondary rounded-full flex items-center justify-center mx-auto mb-2">
                       <span className="text-xl text-secondary-foreground">
-                        {isIdentityRevealed ? 'You' : '?'}
+                        You
                       </span>
                     </div>
-                    <p className="text-xs text-white">
-                      {isIdentityRevealed ? 'You' : 'Anonymous'}
-                    </p>
+                    <p className="text-xs text-white">You</p>
                   </div>
                 </div>
               ) : (
@@ -197,19 +200,6 @@ const VideoChat = () => {
               )}
             </div>
 
-            {/* Identity Reveal Button */}
-            {!isIdentityRevealed && (
-              <div className="absolute bottom-4 left-4">
-                <Button 
-                  variant="hero" 
-                  onClick={handleRevealIdentity}
-                  className="gap-2"
-                >
-                  <Eye className="h-4 w-4" />
-                  Reveal Identity
-                </Button>
-              </div>
-            )}
           </div>
 
           {/* Controls */}
