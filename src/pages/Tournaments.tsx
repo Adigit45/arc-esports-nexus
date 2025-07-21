@@ -1,6 +1,9 @@
 import { useState } from "react";
 import Navigation from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -25,6 +28,22 @@ import {
 const Tournaments = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortBy, setSortBy] = useState("all");
+  const { isLoggedIn } = useAuth();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleTournamentClick = () => {
+    if (!isLoggedIn) {
+      toast({
+        title: "Login Required",
+        description: "Please login or signup to join tournaments",
+        variant: "destructive",
+      });
+      navigate("/player-auth");
+      return;
+    }
+    // Tournament join logic would go here
+  };
 
   const allTournaments = [
     {
@@ -257,7 +276,7 @@ const Tournaments = () => {
                 </div>
 
                 <div className="flex gap-2">
-                  <Button className="flex-1" variant="gaming">
+                  <Button className="flex-1" variant="gaming" onClick={handleTournamentClick}>
                     Join Tournament
                   </Button>
                   <Button variant="outline" size="icon">

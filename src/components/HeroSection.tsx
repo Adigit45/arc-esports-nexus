@@ -55,7 +55,7 @@ const HeroSection = () => {
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>
-          <Link to={isLoggedIn ? "/tournaments" : "/player-auth"}>
+          <Link to="/tournaments">
             <Button size="lg" variant="outline" className="px-8 py-6 text-lg">
               Browse Tournaments
             </Button>
@@ -98,7 +98,7 @@ const HeroSection = () => {
           </Link>
           
           <Link 
-            to={isLoggedIn ? "/tournaments" : "/player-auth"} 
+            to="/tournaments" 
             className="block p-6 rounded-xl bg-card/30 backdrop-blur-sm border border-border/30 hover:border-secondary/30 transition-all duration-300 cursor-pointer hover:scale-105"
           >
             <div className="w-12 h-12 bg-gradient-secondary rounded-lg flex items-center justify-center mb-4 mx-auto">
