@@ -74,8 +74,15 @@ const Connect = () => {
   const handleSkip = () => {
     setIsSearching(true);
     setTimeout(() => {
-      setCurrentUser(generateRandomUser());
+      const user = generateRandomUser();
       setIsSearching(false);
+      
+      // Directly connect to next user after skipping
+      toast({
+        title: "Connected!",
+        description: `You are now connected with ${user.name}`,
+      });
+      navigate('/video-chat', { state: { user } });
     }, 1500);
   };
 
@@ -84,7 +91,19 @@ const Connect = () => {
       title: "User Reported",
       description: "Thank you for keeping our community safe. The user has been reported.",
     });
-    handleSkip();
+    
+    // After reporting, connect to next user automatically
+    setIsSearching(true);
+    setTimeout(() => {
+      const user = generateRandomUser();
+      setIsSearching(false);
+      
+      toast({
+        title: "Connected!",
+        description: `You are now connected with ${user.name}`,
+      });
+      navigate('/video-chat', { state: { user } });
+    }, 1500);
   };
 
   const handleConnect = () => {
