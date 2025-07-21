@@ -12,22 +12,32 @@ import {
   Search, 
   Filter,
   Plus,
-  Clock
+  Clock,
+  ChevronDown
 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Tournaments = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState("all");
 
-  const tournaments = [
+  const allTournaments = [
     {
       id: 1,
       name: "BGMI Championship 2024",
       game: "BGMI",
       type: "Squad",
       prize: "₹50,000",
+      prizeValue: 50000,
       participants: "64/128",
       startDate: "2024-01-15",
       status: "Open",
+      category: "prize",
       image: "/api/placeholder/300/200"
     },
     {
@@ -36,9 +46,11 @@ const Tournaments = () => {
       game: "Valorant",
       type: "Team",
       prize: "₹1,00,000",
+      prizeValue: 100000,
       participants: "16/32",
       startDate: "2024-01-20",
       status: "Open",
+      category: "prize",
       image: "/api/placeholder/300/200"
     },
     {
@@ -47,12 +59,62 @@ const Tournaments = () => {
       game: "Free Fire",
       type: "Solo",
       prize: "₹10,000",
+      prizeValue: 10000,
       participants: "45/100",
       startDate: "2024-01-12",
       status: "Ongoing",
+      category: "prize",
+      image: "/api/placeholder/300/200"
+    },
+    {
+      id: 4,
+      name: "BGMI Fun Match",
+      game: "BGMI",
+      type: "Duo",
+      prize: "Fun",
+      prizeValue: 0,
+      participants: "32/64",
+      startDate: "2024-01-18",
+      status: "Open",
+      category: "fun",
+      image: "/api/placeholder/300/200"
+    },
+    {
+      id: 5,
+      name: "Valorant Weekly",
+      game: "Valorant",
+      type: "Solo",
+      prize: "Fun",
+      prizeValue: 0,
+      participants: "24/50",
+      startDate: "2024-01-16",
+      status: "Open",
+      category: "fun",
       image: "/api/placeholder/300/200"
     },
   ];
+
+  const filteredTournaments = allTournaments.filter(tournament => {
+    const matchesSearch = tournament.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         tournament.game.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    if (sortBy === "all") return matchesSearch;
+    if (sortBy === "bgmi") return matchesSearch && tournament.game === "BGMI";
+    if (sortBy === "valorant") return matchesSearch && tournament.game === "Valorant";
+    if (sortBy === "freefire") return matchesSearch && tournament.game === "Free Fire";
+    if (sortBy === "squad") return matchesSearch && tournament.type === "Squad";
+    if (sortBy === "duo") return matchesSearch && tournament.type === "Duo";
+    if (sortBy === "solo") return matchesSearch && tournament.type === "Solo";
+    if (sortBy === "team") return matchesSearch && tournament.type === "Team";
+    if (sortBy === "fun") return matchesSearch && tournament.category === "fun";
+    if (sortBy === "prize") return matchesSearch && tournament.category === "prize";
+    
+    return matchesSearch;
+  }).sort((a, b) => {
+    if (sortBy === "prize-high") return b.prizeValue - a.prizeValue;
+    if (sortBy === "prize-low") return a.prizeValue - b.prizeValue;
+    return 0;
+  });
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -90,9 +152,53 @@ const Tournaments = () => {
             />
           </div>
           <div className="flex gap-2">
-            <Button variant="outline" size="icon">
-              <Filter className="h-4 w-4" />
-            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline">
+                  <Filter className="h-4 w-4 mr-2" />
+                  Sort
+                  <ChevronDown className="h-4 w-4 ml-2" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem onClick={() => setSortBy("all")}>
+                  All Tournaments
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortBy("bgmi")}>
+                  BGMI
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortBy("valorant")}>
+                  Valorant
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortBy("freefire")}>
+                  Free Fire
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortBy("squad")}>
+                  Squad
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortBy("duo")}>
+                  Duo
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortBy("solo")}>
+                  Solo
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortBy("team")}>
+                  Team
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortBy("fun")}>
+                  Fun Tournaments
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortBy("prize")}>
+                  Prize Tournaments
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortBy("prize-high")}>
+                  Prize: High to Low
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSortBy("prize-low")}>
+                  Prize: Low to High
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
             <Button variant="gaming">
               <Plus className="h-4 w-4 mr-2" />
               Create Tournament
@@ -102,7 +208,7 @@ const Tournaments = () => {
 
         {/* Tournaments Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {tournaments.map((tournament) => (
+          {filteredTournaments.map((tournament) => (
             <Card key={tournament.id} className="group hover:shadow-glow transition-all duration-300 bg-card/50 backdrop-blur-sm border-border/50 hover:border-primary/30">
               <CardHeader className="p-0">
                 <div className="aspect-video bg-gradient-primary/10 rounded-t-lg flex items-center justify-center relative overflow-hidden">
