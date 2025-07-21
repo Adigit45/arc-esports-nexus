@@ -60,17 +60,14 @@ const Connect = () => {
     // Simulate finding a user and directly connect
     setTimeout(() => {
       const user = generateRandomUser();
-      setCurrentUser(user);
       setIsSearching(false);
       
-      // Directly navigate to video chat
-      setTimeout(() => {
-        toast({
-          title: "Connected!",
-          description: `You are now connected with ${user.name}`,
-        });
-        navigate('/video-chat', { state: { user } });
-      }, 1000);
+      // Directly navigate to video chat without showing user details
+      toast({
+        title: "Connected!",
+        description: `You are now connected with ${user.name}`,
+      });
+      navigate('/video-chat', { state: { user } });
     }, 2000);
   };
 
@@ -156,74 +153,11 @@ const Connect = () => {
                 <div className="space-y-8">
                   {/* Connection Status */}
                   <div className="text-center">
-                    {isSearching ? (
-                      <div className="space-y-4">
-                        <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
-                        <h3 className="text-xl font-semibold">Finding Perfect Match...</h3>
-                        <p className="text-muted-foreground">Searching for {selectedGame} players</p>
-                      </div>
-                    ) : currentUser && (
-                      <div className="space-y-6">
-                        {/* User Card */}
-                        <Card className="bg-gradient-primary/10 backdrop-blur-sm border-primary/30 max-w-md mx-auto">
-                          <CardContent className="p-8 text-center">
-                            <div className="w-20 h-20 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                              <Gamepad2 className="w-10 h-10 text-primary-foreground" />
-                            </div>
-                            
-                            <h3 className="text-2xl font-bold mb-2">{currentUser.name}</h3>
-                            
-                            <div className="flex items-center justify-center gap-4 mb-4">
-                              <Badge variant="outline" className="border-primary/50">
-                                {currentUser.gender}
-                              </Badge>
-                              <Badge variant="secondary">
-                                {currentUser.game}
-                              </Badge>
-                              <div className="flex items-center gap-1">
-                                <div className={`w-2 h-2 rounded-full ${
-                                  currentUser.status === 'online' ? 'bg-green-500' : 
-                                  currentUser.status === 'in-game' ? 'bg-orange-500' : 'bg-gray-500'
-                                }`}></div>
-                                <span className="text-sm text-muted-foreground capitalize">{currentUser.status}</span>
-                              </div>
-                            </div>
-
-                            <p className="text-sm text-muted-foreground mb-6">
-                              Ready to team up and dominate the game together!
-                            </p>
-
-                            {/* Action Buttons */}
-                            <div className="flex justify-center gap-3">
-                              <Button variant="hero" size="lg" onClick={handleConnect} className="flex-1">
-                                <MessageCircle className="mr-2 h-4 w-4" />
-                                Connect
-                              </Button>
-                              
-                              <Button variant="outline" size="lg" onClick={handleSkip}>
-                                <SkipForward className="h-4 w-4" />
-                              </Button>
-                              
-                              <Button variant="destructive" size="lg" onClick={handleReport}>
-                                <Flag className="h-4 w-4" />
-                              </Button>
-                            </div>
-                          </CardContent>
-                        </Card>
-
-                        {/* Control Tips */}
-                        <div className="flex justify-center gap-8 text-sm text-muted-foreground">
-                          <div className="flex items-center gap-2">
-                            <SkipForward className="h-4 w-4" />
-                            <span>Skip User</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <Flag className="h-4 w-4" />
-                            <span>Report</span>
-                          </div>
-                        </div>
-                      </div>
-                    )}
+                    <div className="space-y-4">
+                      <div className="w-16 h-16 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto"></div>
+                      <h3 className="text-xl font-semibold">Finding Perfect Match...</h3>
+                      <p className="text-muted-foreground">Searching for {selectedGame} players</p>
+                    </div>
                   </div>
                 </div>
               )}
