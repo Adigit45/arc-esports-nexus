@@ -52,10 +52,7 @@ const Navigation = () => {
         { name: "Teams", href: "/teams", icon: Users },
       ];
     }
-    return [
-      { name: "Tournaments", href: "/tournaments", icon: Trophy },
-      { name: "Teams", href: "/teams", icon: Users },
-    ];
+    return [];
   };
 
   const navItems = getNavItems();
