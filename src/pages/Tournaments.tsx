@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Navigation from "@/components/Navigation";
+import CreateTournament from "@/components/CreateTournament";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -218,10 +219,7 @@ const Tournaments = () => {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-            <Button variant="gaming">
-              <Plus className="h-4 w-4 mr-2" />
-              Create Tournament
-            </Button>
+            <CreateTournament />
           </div>
         </div>
 
