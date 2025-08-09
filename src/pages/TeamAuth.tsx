@@ -68,8 +68,8 @@ const TeamAuth = () => {
                   <Input id="email" type="text" placeholder="Enter email or phone" required />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="otp">OTP</Label>
-                  <Input id="otp" type="text" placeholder="Enter OTP" required />
+                  <Label htmlFor="password">Password</Label>
+                  <Input id="password" type="password" placeholder="Enter password" required />
                 </div>
                 <Button type="submit" className="w-full" variant="secondary">
                   Login as Team
@@ -101,8 +101,8 @@ const TeamAuth = () => {
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="reg-otp">OTP</Label>
-                  <Input id="reg-otp" type="text" placeholder="Enter OTP" required />
+                  <Label htmlFor="reg-password">Password</Label>
+                  <Input id="reg-password" type="password" placeholder="Enter password" required />
                 </div>
                 <Button type="submit" className="w-full" variant="secondary">
                   Register as Team
