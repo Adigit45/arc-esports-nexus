@@ -23,7 +23,13 @@ import {
   Star,
   Crown,
   Medal,
-  Award
+  Award,
+  Search,
+  Clock,
+  CheckCircle,
+  AlertTriangle,
+  Plus,
+  Filter
 } from "lucide-react";
 
 const TeamProfile = () => {
@@ -71,6 +77,35 @@ const TeamProfile = () => {
       { platform: "Twitter", followers: "8.2K", verified: true },
       { platform: "YouTube", followers: "25.1K", verified: true },
       { platform: "Twitch", followers: "5.8K", verified: false }
+    ],
+    recruitment: [
+      {
+        id: 1,
+        game: "BGMI",
+        position: "Entry Fragger",
+        requirements: ["18+ age", "4+ KD ratio", "Pro tournament experience", "Good communication"],
+        status: "Active",
+        postedDate: "2 days ago",
+        urgency: "High"
+      },
+      {
+        id: 2,
+        game: "Valorant",
+        position: "Controller Main",
+        requirements: ["Immortal+ rank", "Team experience", "Good game sense", "18+ age"],
+        status: "Active",
+        postedDate: "5 days ago",
+        urgency: "Medium"
+      },
+      {
+        id: 3,
+        game: "Free Fire",
+        position: "IGL",
+        requirements: ["Leadership skills", "Tournament wins", "Strategic mind", "Communication"],
+        status: "Closed",
+        postedDate: "1 week ago",
+        urgency: "Low"
+      }
     ]
   };
 
@@ -82,7 +117,8 @@ const TeamProfile = () => {
       game: "BGMI",
       likes: 342,
       comments: 67,
-      timeAgo: "1h ago"
+      timeAgo: "1h ago",
+      image: ""
     },
     {
       id: 2,
@@ -91,7 +127,18 @@ const TeamProfile = () => {
       game: "Valorant",
       likes: 156,
       comments: 23,
-      timeAgo: "1d ago"
+      timeAgo: "1d ago",
+      image: ""
+    },
+    {
+      id: 3,
+      content: "Looking for a skilled controller player for our Valorant roster. Check out our recruitment section! 🎯",
+      type: "recruitment",
+      game: "Valorant",
+      likes: 89,
+      comments: 34,
+      timeAgo: "3d ago",
+      image: ""
     }
   ];
 
@@ -102,6 +149,30 @@ const TeamProfile = () => {
       case "Twitch": return Twitch;
       case "YouTube": return Youtube;
       default: return Users;
+    }
+  };
+
+  const getRecruitmentStatus = (status: string) => {
+    switch (status) {
+      case "Active":
+        return { color: "bg-green-500", icon: CheckCircle };
+      case "Closed":
+        return { color: "bg-red-500", icon: AlertTriangle };
+      default:
+        return { color: "bg-yellow-500", icon: Clock };
+    }
+  };
+
+  const getUrgencyColor = (urgency: string) => {
+    switch (urgency) {
+      case "High":
+        return "text-red-500";
+      case "Medium":
+        return "text-yellow-500";
+      case "Low":
+        return "text-green-500";
+      default:
+        return "text-muted-foreground";
     }
   };
 
@@ -184,8 +255,8 @@ const TeamProfile = () => {
             </CardContent>
           </Card>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Left Column */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
+            {/* Left Column - Achievements & Social */}
             <div className="space-y-6">
               {/* Achievements */}
               <Card className="bg-card border-border">
@@ -251,7 +322,7 @@ const TeamProfile = () => {
               </Card>
             </div>
 
-            {/* Middle Column - Roster */}
+            {/* Second Column - Roster */}
             <div className="space-y-6">
               <Card className="bg-card border-border">
                 <CardHeader>
@@ -310,14 +381,82 @@ const TeamProfile = () => {
               </Card>
             </div>
 
-            {/* Right Column - Posts */}
-            <div>
+            {/* Third Column - Recruitment */}
+            <div className="space-y-6">
               <Card className="bg-card border-border">
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <MessageCircle className="h-5 w-5" />
-                    Team Posts
-                  </CardTitle>
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <Search className="h-5 w-5" />
+                      Recruitment
+                    </CardTitle>
+                    <Button size="sm" variant="outline">
+                      <Plus className="h-4 w-4 mr-1" />
+                      Post
+                    </Button>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {teamData.recruitment.map((job) => {
+                    const statusInfo = getRecruitmentStatus(job.status);
+                    const StatusIcon = statusInfo.icon;
+                    return (
+                      <div key={job.id} className="p-4 bg-muted/50 rounded-lg border-l-4 border-l-primary">
+                        <div className="flex items-start justify-between mb-3">
+                          <div>
+                            <h4 className="font-medium">{job.position}</h4>
+                            <p className="text-sm text-muted-foreground">{job.game}</p>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Badge variant="outline" className={`${statusInfo.color} text-white`}>
+                              <StatusIcon className="h-3 w-3 mr-1" />
+                              {job.status}
+                            </Badge>
+                          </div>
+                        </div>
+                        
+                        <div className="space-y-2 mb-3">
+                          {job.requirements.slice(0, 2).map((req, index) => (
+                            <p key={index} className="text-xs text-muted-foreground">• {req}</p>
+                          ))}
+                          {job.requirements.length > 2 && (
+                            <p className="text-xs text-primary">+{job.requirements.length - 2} more requirements</p>
+                          )}
+                        </div>
+                        
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="text-muted-foreground">{job.postedDate}</span>
+                          <span className={`font-medium ${getUrgencyColor(job.urgency)}`}>
+                            {job.urgency} Priority
+                          </span>
+                        </div>
+                        
+                        {job.status === "Active" && (
+                          <Button size="sm" className="w-full mt-3" variant="gaming">
+                            Apply Now
+                          </Button>
+                        )}
+                      </div>
+                    );
+                  })}
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Fourth Column - Posts */}
+            <div className="space-y-6">
+              <Card className="bg-card border-border">
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="flex items-center gap-2">
+                      <MessageCircle className="h-5 w-5" />
+                      Team Posts
+                    </CardTitle>
+                    <Button size="sm" variant="outline">
+                      <Filter className="h-4 w-4 mr-1" />
+                      Filter
+                    </Button>
+                  </div>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {recentPosts.map((post) => (
@@ -328,31 +467,41 @@ const TeamProfile = () => {
                             <AvatarFallback>{teamData.name.slice(0, 2)}</AvatarFallback>
                           </Avatar>
                           <div>
-                            <p className="font-medium">{teamData.name}</p>
-                            <p className="text-sm text-muted-foreground">{post.timeAgo}</p>
+                            <p className="font-medium text-sm">{teamData.name}</p>
+                            <p className="text-xs text-muted-foreground">{post.timeAgo}</p>
                           </div>
                         </div>
-                        <Badge variant="outline">{post.game}</Badge>
+                        <Badge variant="outline" className="text-xs">{post.game}</Badge>
                       </div>
                       
-                      <p className="mb-3">{post.content}</p>
+                      <p className="text-sm mb-3 leading-relaxed">{post.content}</p>
                       
-                      <div className="flex items-center space-x-4 text-sm">
-                        <Button variant="ghost" size="sm">
-                          <Heart className="w-4 h-4 mr-1" />
+                      {post.type === "achievement" && (
+                        <div className="bg-gradient-primary/10 p-2 rounded-md mb-3">
+                          <p className="text-xs text-primary font-medium">🏆 Tournament Victory</p>
+                        </div>
+                      )}
+                      
+                      <div className="flex items-center space-x-3 text-xs">
+                        <Button variant="ghost" size="sm" className="h-6 px-2">
+                          <Heart className="w-3 h-3 mr-1" />
                           {post.likes}
                         </Button>
-                        <Button variant="ghost" size="sm">
-                          <MessageCircle className="w-4 h-4 mr-1" />
+                        <Button variant="ghost" size="sm" className="h-6 px-2">
+                          <MessageCircle className="w-3 h-3 mr-1" />
                           {post.comments}
                         </Button>
-                        <Button variant="ghost" size="sm">
-                          <Share2 className="w-4 h-4 mr-1" />
+                        <Button variant="ghost" size="sm" className="h-6 px-2">
+                          <Share2 className="w-3 h-3 mr-1" />
                           Share
                         </Button>
                       </div>
                     </div>
                   ))}
+                  
+                  <Button variant="outline" className="w-full" size="sm">
+                    View All Posts
+                  </Button>
                 </CardContent>
               </Card>
             </div>
